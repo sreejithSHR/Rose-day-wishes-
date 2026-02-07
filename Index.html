@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Happy Rose Day</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #140016, #2b001f);
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  touch-action: manipulation;
+}
+
+#scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Center Rose */
+#mainRose {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: transform 1.2s ease;
+  cursor: pointer;
+}
+
+/* Bloom effect */
+.bloom {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Falling roses */
+.rose-fall {
+  position: absolute;
+  top: -80px;
+  width: 40px;
+  opacity: 0.9;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  from { transform: translateY(-100px) rotate(0deg); }
+  to { transform: translateY(110vh) rotate(360deg); }
+}
+
+/* Message */
+#wish {
+  position: absolute;
+  bottom: 12%;
+  width: 100%;
+  text-align: center;
+  color: #ffd6e5;
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 1s ease;
+  padding: 0 16px;
+}
+
+.show {
+  opacity: 1;
+}
+</style>
+</head>
+
+<body>
+<div id="scene">
+
+  <!-- Main Vector Rose -->
+  <svg id="mainRose" width="160" height="220" viewBox="0 0 200 300">
+    <path d="M100 150
+             C60 120, 40 80, 80 60
+             C90 20, 150 20, 160 60
+             C200 80, 180 120, 140 150
+             C160 180, 130 210, 100 230
+             C70 210, 40 180, 60 150
+             Z"
+          fill="#b1123f"/>
+
+    <rect x="95" y="230" width="10" height="70" fill="#2e7d32"/>
+
+    <ellipse cx="75" cy="270" rx="40" ry="15" fill="#2e7d32"/>
+    <ellipse cx="125" cy="285" rx="40" ry="15" fill="#2e7d32"/>
+  </svg>
+
+  <div id="wish">
+    Happy Rose Day 🌹<br>
+    May love bloom wherever you touch
+  </div>
+
+</div>
+
+<script>
+const mainRose = document.getElementById("mainRose");
+const wish = document.getElementById("wish");
+let bloomed = false;
+
+mainRose.addEventListener("click", bloom);
+mainRose.addEventListener("touchstart", bloom);
+
+function bloom() {
+  if (bloomed) return;
+  bloomed = true;
+
+  mainRose.classList.add("bloom");
+  wish.classList.add("show");
+
+  for (let i = 0; i < 30; i++) {
+    setTimeout(createFallingRose, i * 120);
+  }
+}
+
+function createFallingRose() {
+  const rose = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  rose.setAttribute("viewBox", "0 0 200 200");
+  rose.classList.add("rose-fall");
+
+  rose.innerHTML = `
+    <path d="M100 80
+             C60 60, 60 30, 100 30
+             C140 30, 140 60, 100 80 Z"
+          fill="#c2185b"/>
+  `;
+
+  rose.style.left = Math.random() * 100 + "vw";
+  rose.style.animationDuration = (4 + Math.random() * 4) + "s";
+
+  document.getElementById("scene").appendChild(rose);
+
+  setTimeout(() => rose.remove(), 9000);
+}
+</script>
+</body>
+</html>
