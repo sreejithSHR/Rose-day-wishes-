@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Happy Rose Day 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #2a0a3d, #1a0520, #0d0212);
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  touch-action: manipulation;
+}
+
+#scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Floating Hearts Background */
+.floating-heart {
+  position: absolute;
+  opacity: 0.1;
+  font-size: 2rem;
+  animation: floatHeart 15s ease-in-out infinite;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
+@keyframes floatHeart {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-100vh) translateX(50px) rotate(180deg);
+    opacity: 0.1;
+  }
+  90% {
+    opacity: 0.05;
+  }
+}
+
+/* Halo Heart Rings Background */
+.heart-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.15;
+  animation: heartPulse 8s ease-in-out infinite;
+  pointer-events: none;
+  filter: blur(0.5px); /* Reduced blur */
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
+.heart-ring:nth-child(even) {
+  animation-delay: 2s;
+  opacity: 0.1;
+}
+
+.heart-ring:nth-child(3) {
+  animation-delay: 4s;
+  opacity: 0.12;
+}
+
+.heart-ring:nth-child(4) {
+  animation-delay: 6s;
+  opacity: 0.08;
+}
+
+@keyframes heartPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0.15;
+  }
+}
+
+/* Instruction Text */
+#instruction {
+  position: absolute;
+  top: 15%;
+  width: 100%;
+  text-align: center;
+  color: #ffb3d9;
+  font-size: 2.2rem;
+  font-family: 'Pacifico', cursive;
+  text-shadow: 
+    0 0 20px rgba(255, 179, 217, 0.8), 
+    0 0 40px rgba(255, 107, 157, 0.6),
+    0 4px 6px rgba(0, 0, 0, 0.3);
+  opacity: 1;
+  transition: opacity 0.8s ease;
+  padding: 0 30px;
+  z-index: 100;
+  animation: funnyBounce 3s ease-in-out infinite;
+  line-height: 1.6;
+}
+
+@keyframes funnyBounce {
+  0%, 100% { 
+    transform: translateY(0) rotate(-1deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  50% { 
+    transform: translateY(0) rotate(-0.5deg);
+    text-shadow: 
+      0 0 30px rgba(255, 179, 217, 1), 
+      0 0 60px rgba(255, 107, 157, 0.8),
+      0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+  75% {
+    transform: translateY(-5px) rotate(0.5deg);
+  }
+}
+
+#instruction.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Center Rose */
+#mainRose {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  transition: all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  filter: drop-shadow(0 10px 30px rgba(177, 18, 63, 0.6));
+}
+
+#mainRose:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+  filter: drop-shadow(0 15px 40px rgba(177, 18, 63, 0.8));
+}
+
+/* Bloom effect */
+.bloom {
+  transform: translate(-50%, -50%) scale(1.6) !important;
+  filter: drop-shadow(0 20px 50px rgba(177, 18, 63, 1)) 
+          drop-shadow(0 0 80px rgba(255, 107, 157, 0.8)) !important;
+}
+
+/* Screen filling roses */
+.screen-rose {
+  position: absolute;
+  width: 70px;
+  opacity: 0;
+  animation: roseAppear 1.5s ease-out forwards;
+  pointer-events: none;
+  filter: drop-shadow(0 5px 15px rgba(177, 18, 63, 0.4));
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
+@keyframes roseAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.3) rotate(180deg);
+  }
+  100% {
+    opacity: 0.85;
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+/* Falling petals */
+.petal-fall {
+  position: absolute;
+  top: -50px;
+  width: 35px;
+  opacity: 0.95;
+  animation: petalFall linear infinite;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 5px rgba(255, 107, 157, 0.3));
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
+@keyframes petalFall {
+  from { 
+    transform: translateY(-50px) rotate(0deg) translateX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(50vh) rotate(360deg) translateX(30px);
+  }
+  to { 
+    transform: translateY(110vh) rotate(720deg) translateX(0);
+    opacity: 0.2;
+  }
+}
+
+/* Message made of petals */
+#messageContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 2s ease;
+  z-index: 50;
+  pointer-events: none;
+}
+
+#messageContainer.show {
+  opacity: 1;
+}
+
+#messageText {
+  font-size: 5.5rem;
+  font-weight: bold;
+  font-family: 'Dancing Script', cursive;
+  color: #fff;
+  text-shadow: 
+    0 0 30px rgba(255, 179, 217, 1),
+    0 0 60px rgba(255, 107, 157, 0.8),
+    0 0 90px rgba(255, 107, 157, 0.6),
+    0 5px 10px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  animation: messageGlow 3s ease-in-out infinite;
+  letter-spacing: 3px;
+}
+
+@keyframes messageGlow {
+  0%, 100% {
+    text-shadow: 
+      0 0 30px rgba(255, 179, 217, 1),
+      0 0 60px rgba(255, 107, 157, 0.8),
+      0 0 90px rgba(255, 107, 157, 0.6),
+      0 5px 10px rgba(0, 0, 0, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 
+      0 0 40px rgba(255, 179, 217, 1),
+      0 0 80px rgba(255, 107, 157, 1),
+      0 0 120px rgba(255, 107, 157, 0.8),
+      0 8px 15px rgba(0, 0, 0, 0.5);
+    transform: scale(1.02);
+  }
+}
+
+.message-petal {
+  position: absolute;
+  width: 25px;
+  opacity: 0;
+  animation: petalGather 2s ease-out forwards;
+  filter: drop-shadow(0 2px 5px rgba(255, 107, 157, 0.4));
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
+@keyframes petalGather {
+  0% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) rotate(0deg) scale(0);
+  }
+  100% {
+    opacity: 0.9;
+    transform: translate(0, 0) rotate(360deg) scale(1);
+  }
+}
+
+/* Sparkles */
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  animation: sparkle 2s ease-in-out infinite;
+  pointer-events: none;
+  box-shadow: 0 0 10px #fff;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  #instruction {
+    font-size: 1.6rem;
+    top: 10%;
+  }
+  
+  #messageText {
+    font-size: 3rem;
+  }
+  
+  .screen-rose {
+    width: 50px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div id="scene">
+
+  <!-- Heart Rings Background -->
+  <svg class="heart-ring" width="600" height="600" viewBox="0 0 100 100">
+    <path d="M50,90 C20,65 10,45 10,30 C10,18 18,10 28,10 C35,10 42,14 50,22 C58,14 65,10 72,10 C82,10 90,18 90,30 C90,45 80,65 50,90 Z" 
+          fill="none" stroke="#ff6b9d" stroke-width="0.3"/>
+  </svg>
+  
+  <svg class="heart-ring" width="600" height="600" viewBox="0 0 100 100">
+    <path d="M50,90 C20,65 10,45 10,30 C10,18 18,10 28,10 C35,10 42,14 50,22 C58,14 65,10 72,10 C82,10 90,18 90,30 C90,45 80,65 50,90 Z" 
+          fill="none" stroke="#ff85a6" stroke-width="0.3"/>
+  </svg>
+  
+  <svg class="heart-ring" width="600" height="600" viewBox="0 0 100 100">
+    <path d="M50,90 C20,65 10,45 10,30 C10,18 18,10 28,10 C35,10 42,14 50,22 C58,14 65,10 72,10 C82,10 90,18 90,30 C90,45 80,65 50,90 Z" 
+          fill="none" stroke="#ffb3d9" stroke-width="0.3"/>
+  </svg>
+  
+  <svg class="heart-ring" width="600" height="600" viewBox="0 0 100 100">
+    <path d="M50,90 C20,65 10,45 10,30 C10,18 18,10 28,10 C35,10 42,14 50,22 C58,14 65,10 72,10 C82,10 90,18 90,30 C90,45 80,65 50,90 Z" 
+          fill="none" stroke="#ffc9e5" stroke-width="0.3"/>
+  </svg>
+
+  <div id="instruction">
+    Click the rose, yeah!<br>
+    <span style="font-size: 0.85em;">With that angry nose of yours 👃✨</span>
+  </div>
+
+  <!-- Enhanced Main Vector Rose with realistic petals -->
+  <svg id="mainRose" width="200" height="280" viewBox="0 0 200 300">
+    <!-- Outer petals (darker) -->
+    <path d="M100 120 C70 100, 50 70, 70 50 C80 35, 95 30, 100 45 Z" 
+          fill="#8b0a2e" opacity="0.7"/>
+    <path d="M100 120 C130 100, 150 70, 130 50 C120 35, 105 30, 100 45 Z" 
+          fill="#8b0a2e" opacity="0.7"/>
+    
+    <!-- Middle petals -->
+    <path d="M100 140 C65 115, 45 85, 75 65 C85 50, 100 48, 100 65 Z" 
+          fill="#b1123f"/>
+    <path d="M100 140 C135 115, 155 85, 125 65 C115 50, 100 48, 100 65 Z" 
+          fill="#b1123f"/>
+    <path d="M100 140 C80 95, 100 60, 100 60 C100 60, 120 95, 100 140 Z" 
+          fill="#c41c3b"/>
+    
+    <!-- Main rose body with gradient effect -->
+    <ellipse cx="100" cy="110" rx="45" ry="50" fill="#d81b60"/>
+    <ellipse cx="100" cy="115" rx="35" ry="40" fill="#c2185b"/>
+    <ellipse cx="100" cy="120" rx="25" ry="30" fill="#b1123f"/>
+    
+    <!-- Inner petals (lighter, more detailed) -->
+    <path d="M100 95 C85 90, 75 100, 85 110 C90 115, 95 112, 100 105 Z" 
+          fill="#e91e63"/>
+    <path d="M100 95 C115 90, 125 100, 115 110 C110 115, 105 112, 100 105 Z" 
+          fill="#e91e63"/>
+    <path d="M100 100 C90 105, 85 115, 95 120 C100 122, 100 115, 100 110 Z" 
+          fill="#f06292"/>
+    <path d="M100 100 C110 105, 115 115, 105 120 C100 122, 100 115, 100 110 Z" 
+          fill="#f06292"/>
+    
+    <!-- Rose center highlights -->
+    <ellipse cx="100" cy="115" rx="12" ry="15" fill="#ff4081" opacity="0.6"/>
+    <ellipse cx="98" cy="110" rx="6" ry="8" fill="#ff80ab" opacity="0.8"/>
+    
+    <!-- Stem with gradient -->
+    <defs>
+      <linearGradient id="stemGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#4caf50;stop-opacity:1" />
+        <stop offset="50%" style="stop-color:#388e3c;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#2e7d32;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    <rect x="94" y="160" width="12" height="120" fill="url(#stemGrad)" rx="3"/>
+    
+    <!-- Leaves with detail -->
+    <ellipse cx="70" cy="200" rx="35" ry="18" fill="#4caf50" 
+             transform="rotate(-20 70 200)"/>
+    <ellipse cx="70" cy="200" rx="28" ry="14" fill="#66bb6a" 
+             transform="rotate(-20 70 200)"/>
+    
+    <ellipse cx="130" cy="230" rx="38" ry="20" fill="#4caf50" 
+             transform="rotate(15 130 230)"/>
+    <ellipse cx="130" cy="230" rx="30" ry="15" fill="#66bb6a" 
+             transform="rotate(15 130 230)"/>
+    
+    <!-- Leaf veins -->
+    <path d="M70 190 Q70 200 70 210" stroke="#2e7d32" stroke-width="1.5" 
+          fill="none" opacity="0.5"/>
+    <path d="M130 220 Q130 230 130 240" stroke="#2e7d32" stroke-width="1.5" 
+          fill="none" opacity="0.5"/>
+  </svg>
+
+  <div id="messageContainer">
+    <div id="messageText">Happy Rose Day</div>
+  </div>
+
+</div>
+
+<script>
+const mainRose = document.getElementById("mainRose");
+const instruction = document.getElementById("instruction");
+const messageContainer = document.getElementById("messageContainer");
+const messageText = document.getElementById("messageText");
+const scene = document.getElementById("scene");
+let bloomed = false;
+
+// Create floating hearts
+function createFloatingHearts() {
+  for (let i = 0; i < 5; i++) { // Reduced from 8
+    setTimeout(() => {
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart';
+      heart.textContent = '💕';
+      heart.style.left = (10 + Math.random() * 80) + '%';
+      heart.style.bottom = '-50px';
+      heart.style.animationDelay = (Math.random() * 5) + 's';
+      heart.style.animationDuration = (12 + Math.random() * 6) + 's';
+      scene.appendChild(heart);
+    }, i * 3000); // Slower creation
+  }
+}
+
+createFloatingHearts();
+setInterval(createFloatingHearts, 20000); // Less frequent
+
+mainRose.addEventListener("click", bloom);
+mainRose.addEventListener("touchstart", bloom);
+
+function bloom() {
+  if (bloomed) return;
+  bloomed = true;
+
+  // Hide instruction
+  instruction.classList.add("hide");
+
+  // Bloom the main rose
+  mainRose.classList.add("bloom");
+  
+  // Create sparkles around rose
+  createSparkles();
+
+  // Fill screen with roses
+  setTimeout(() => {
+    fillScreenWithRoses();
+  }, 400);
+
+  // Start falling petals
+  setTimeout(() => {
+    startFallingPetals();
+  }, 700);
+
+  // Show message with petals
+  setTimeout(() => {
+    showMessage();
+  }, 1800);
+}
+
+function createSparkles() {
+  for (let i = 0; i < 12; i++) { // Reduced from 20
+    setTimeout(() => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      const angle = (i / 12) * Math.PI * 2;
+      const distance = 80 + Math.random() * 40;
+      sparkle.style.left = `calc(50% + ${Math.cos(angle) * distance}px)`;
+      sparkle.style.top = `calc(50% + ${Math.sin(angle) * distance}px)`;
+      sparkle.style.animationDelay = (i * 0.05) + 's';
+      scene.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 2000);
+    }, i * 40);
+  }
+}
+
+function fillScreenWithRoses() {
+  const colors = [
+    { petal: "#b1123f", center: "#d81b60" },
+    { petal: "#c2185b", center: "#e91e63" },
+    { petal: "#d81b60", center: "#f06292" },
+    { petal: "#e91e63", center: "#ff4081" },
+    { petal: "#ad1457", center: "#c2185b" }
+  ];
+  const numRoses = 30; // Reduced from 60
+
+  for (let i = 0; i < numRoses; i++) {
+    setTimeout(() => {
+      const rose = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      rose.setAttribute("viewBox", "0 0 200 300");
+      rose.classList.add("screen-rose");
+
+      const colorSet = colors[Math.floor(Math.random() * colors.length)];
+      
+      rose.innerHTML = `
+        <ellipse cx="100" cy="110" rx="45" ry="50" fill="${colorSet.petal}"/>
+        <ellipse cx="100" cy="115" rx="35" ry="40" fill="${colorSet.center}"/>
+        <ellipse cx="100" cy="120" rx="25" ry="30" fill="${colorSet.petal}"/>
+        <ellipse cx="100" cy="115" rx="12" ry="15" fill="#ff4081" opacity="0.6"/>
+      `;
+
+      rose.style.left = Math.random() * 100 + "vw";
+      rose.style.top = Math.random() * 100 + "vh";
+      rose.style.animationDelay = (Math.random() * 0.7) + "s";
+      rose.style.transform = `rotate(${Math.random() * 360}deg)`;
+      rose.style.willChange = 'transform, opacity'; // Performance hint
+
+      scene.appendChild(rose);
+    }, i * 50); // Slower creation for better performance
+  }
+}
+
+function startFallingPetals() {
+  const colors = ["#ff6b9d", "#ff85a6", "#ffa0b8", "#ffbacb", "#ff4081"];
+  
+  // Initial burst - reduced from 80
+  for (let i = 0; i < 40; i++) {
+    setTimeout(() => {
+      createFallingPetal(colors);
+    }, i * 60);
+  }
+
+  // Continuous falling - reduced frequency
+  setInterval(() => {
+    createFallingPetal(colors);
+  }, 300); // Reduced from 180
+}
+
+function createFallingPetal(colors) {
+  const petal = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  petal.setAttribute("viewBox", "0 0 200 200");
+  petal.classList.add("petal-fall");
+
+  const color = colors[Math.floor(Math.random() * colors.length)];
+
+  petal.innerHTML = `
+    <path d="M100 80
+             C70 65, 65 35, 100 30
+             C135 35, 130 65, 100 80 Z"
+          fill="${color}"/>
+    <ellipse cx="100" cy="55" rx="8" ry="12" fill="#fff" opacity="0.3"/>
+  `;
+
+  petal.style.left = Math.random() * 100 + "vw";
+  petal.style.animationDuration = (4 + Math.random() * 5) + "s";
+
+  scene.appendChild(petal);
+
+  setTimeout(() => petal.remove(), 10000);
+}
+
+function showMessage() {
+  // Create decorative petals around the message - reduced from 40
+  const numPetals = 25;
+  const colors = ["#ff6b9d", "#ff85a6", "#ffa0b8", "#ff4081"];
+  
+  for (let i = 0; i < numPetals; i++) {
+    setTimeout(() => {
+      const petal = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      petal.setAttribute("viewBox", "0 0 200 200");
+      petal.classList.add("message-petal");
+
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      petal.innerHTML = `
+        <path d="M100 80
+                 C70 65, 65 35, 100 30
+                 C135 35, 130 65, 100 80 Z"
+              fill="${color}"/>
+        <ellipse cx="100" cy="55" rx="8" ry="12" fill="#fff" opacity="0.4"/>
+      `;
+
+      // Create circular pattern around text
+      const angle = (i / numPetals) * Math.PI * 2;
+      const radius = 250 + Math.random() * 80;
+      const tx = Math.cos(angle) * radius;
+      const ty = Math.sin(angle) * radius;
+
+      petal.style.setProperty('--tx', `${tx}px`);
+      petal.style.setProperty('--ty', `${ty}px`);
+      petal.style.left = '50%';
+      petal.style.top = '50%';
+      petal.style.animationDelay = (i * 0.04) + "s";
+      petal.style.willChange = 'transform, opacity'; // Performance hint
+
+      messageContainer.appendChild(petal);
+    }, i * 35); // Slightly slower creation
+  }
+
+  // Show the message text
+  setTimeout(() => {
+    messageContainer.classList.add("show");
+  }, 1000);
+}
+</script>
+</body>
+</html>
